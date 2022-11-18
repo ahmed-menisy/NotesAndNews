@@ -1,0 +1,136 @@
+<section class="container">
+  <h1
+    class="sm:text-3xl lg:text-6xl text-dark-light flex items-center rounded h-[200px] px-4 text-2xl font-bold uppercase bg-gray-100"
+  >
+    add new post
+  </h1>
+
+  <article>
+    <form
+      [formGroup]="addForm"
+      (ngSubmit)="add(addForm)"
+      class="grid gap-4 mt-10"
+    >
+      <div class="relative">
+        <label for="title" class="text-black/70">Title</label>
+        <input
+          #tit
+          [ngClass]="{
+            'border-red-700 focus:ring-red-700 focus:border-red-700':
+              addForm.get('title')?.errors && tit.value.length,
+            'border-green-700 focus:ring-green-700 focus:border-green-700':
+              !addForm.get('title')?.errors && tit.value.length
+          }"
+          formControlName="title"
+          type="text"
+          class="form-input placeholder:text-sm placeholder:text-dark-light focus:ring-dark-light focus:border-dark-light w-full rounded"
+          placeholder="Enter Title "
+        />
+
+        <div
+          *ngIf="addForm.get('title')?.errors && tit.value?.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="addForm.get('title')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title is required
+          </p>
+          <p
+            *ngIf="addForm.get('title')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title min length (5)
+          </p>
+          <p
+            *ngIf="addForm.get('title')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title max length (500)
+          </p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="description" class="text-black/70">Description</label>
+        <textarea
+          #desc
+          [ngClass]="{
+            'border-red-700 focus:ring-red-700 focus:border-red-700':
+              addForm.get('description')?.errors && desc.value.length,
+            'border-green-700 focus:ring-green-700 focus:border-green-700':
+              !addForm.get('description')?.errors && desc.value.length
+          }"
+          formControlName="description"
+          id="description"
+          class="form-input resize-none block h-[200px] w-full rounded placeholder:text-sm placeholder:text-dark-light focus:ring-dark-light focus:border-dark-light"
+          placeholder="Enter Description"
+        ></textarea>
+        <div
+          *ngIf="addForm.get('description')?.errors && desc.value?.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="addForm.get('description')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description is required
+          </p>
+          <p
+            *ngIf="addForm.get('description')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description min length (5)
+          </p>
+          <p
+            *ngIf="addForm.get('description')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description max length (500)
+          </p>
+        </div>
+      </div>
+
+      <button
+        [disabled]="addForm.invalid"
+        class="enabled:hover:bg-blue-900 disabled:bg-blue-300 py-2 tracking-widest text-center text-white uppercase bg-blue-700 rounded"
+      >
+        save
+      </button>
+    </form>
+  </article>
+</section>
+
+<!-- Recomendation News  -->
+<section class="container mt-10 overflow-y-auto h-[50vh]">
+  <h2
+    class="text-dark-light sticky top-0 z-10 text-3xl font-bold tracking-wider capitalize bg-white"
+  >
+    recommended news
+  </h2>
+
+  <div class="md:grid-cols-2 lg:grid-cols-3 grid gap-4 mt-3">
+    <article *ngFor="let news of newsPosts; index as i">
+      <input
+        #inp
+        [id]="'n' + i"
+        type="checkbox"
+        class="peer hidden appearance-none"
+        (change)="isChecked($event)"
+        [value]="
+          { title: news.title, description: news.description, id: news.title }
+            | json
+        "
+        [checked]="check(inp)"
+      />
+      <label
+        [for]="'n' + i"
+        class="peer-checked:bg-orange-500 peer-checked:text-white group block h-full p-4 overflow-hidden text-center border rounded cursor-pointer"
+      >
+        <h3 class="text-xl font-semibold uppercase">{{ news.title }}</h3>
+        <p class="mt-2 text-sm font-light">{{ news.description }}</p>
+      </label>
+    </article>
+  </div>
+</section>

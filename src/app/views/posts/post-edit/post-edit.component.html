@@ -1,0 +1,104 @@
+<section class="container">
+  <h1
+    class="sm:text-3xl lg:text-6xl text-dark-light flex items-center rounded h-[200px] px-4 text-2xl font-bold uppercase bg-gray-100"
+  >
+    update post
+  </h1>
+  <article>
+    <form
+      [formGroup]="updateForm"
+      (ngSubmit)="update(updateForm)"
+      class="grid gap-4 mt-10"
+    >
+      <div class="relative">
+        <label for="title" class="text-black/70">Title</label>
+        <input
+          #tit
+          value="Title Here ....."
+          [ngClass]="{
+            'border-red-700 focus:ring-red-700 focus:border-red-700':
+              updateForm.get('title')?.errors && tit.value.length,
+            'border-green-700 focus:ring-green-700 focus:border-green-700':
+              !updateForm.get('title')?.errors && tit.value.length
+          }"
+          formControlName="title"
+          type="text"
+          class="form-input placeholder:text-sm placeholder:text-dark-light focus:ring-dark-light focus:border-dark-light w-full rounded"
+          placeholder="Enter Title "
+        />
+
+        <div
+          *ngIf="updateForm.get('title')?.errors && tit.value.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="updateForm.get('title')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title is required
+          </p>
+          <p
+            *ngIf="updateForm.get('title')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title min length (5)
+          </p>
+          <p
+            *ngIf="updateForm.get('title')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title max length (500)
+          </p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="description" class="text-black/70">Description</label>
+        <textarea
+          #desc
+          value="Description Here ......"
+          [ngClass]="{
+            'border-red-700 focus:ring-red-700 focus:border-red-700':
+              updateForm.get('description')?.errors && desc.value.length,
+            'border-green-700 focus:ring-green-700 focus:border-green-700':
+              !updateForm.get('description')?.errors && desc.value.length
+          }"
+          formControlName="description"
+          id="description"
+          class="form-input resize-none block h-[200px] w-full rounded placeholder:text-sm placeholder:text-dark-light focus:ring-dark-light focus:border-dark-light"
+          placeholder="Enter Description"
+        ></textarea>
+        <div
+          *ngIf="updateForm.get('description')?.errors && desc.value.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="updateForm.get('description')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description is required
+          </p>
+          <p
+            *ngIf="updateForm.get('description')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description min length (5)
+          </p>
+          <p
+            *ngIf="updateForm.get('description')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description max length (500)
+          </p>
+        </div>
+      </div>
+
+      <button
+        [disabled]="updateForm.invalid"
+        class="enabled:hover:bg-orange-900 disabled:bg-orange-300 py-2 tracking-widest text-center text-white uppercase bg-orange-700 rounded"
+      >
+        update
+      </button>
+    </form>
+  </article>
+</section>

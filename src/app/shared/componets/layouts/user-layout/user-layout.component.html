@@ -1,0 +1,40 @@
+<section class="flex h-screen">
+  <aside
+    class="w-[80px] sm:w-[220px] shrink-0 bg-orange-500 transition-all duration-500 overflow-hidden h-full grid content-center"
+  >
+    <nav>
+      <ul class="whitespace-nowrap">
+        <!-- <li class="link uppercase" routerLinkActive="active">
+          <i class="w-14 fas fa-home fa-fw"></i>
+          <span class="sm:inline-block hidden">home</span>
+        </li> -->
+
+        <li
+          class="link uppercase"
+          routerLinkActive="active"
+          routerLink="/user/news"
+        >
+          <i class="w-14 fas fa-newspaper fa-fw"></i>
+          <span class="sm:inline-block hidden">news</span>
+        </li>
+
+        <li
+          class="link uppercase"
+          routerLinkActive="active"
+          routerLink="/user/notes"
+        >
+          <i class="w-14 fas fa-note-sticky fa-fw"></i>
+          <span class="sm:inline-block hidden">notes</span>
+        </li>
+
+        <li class="link uppercase" routerLinkActive="active" (click)="logOut()">
+          <i class="w-14 fas fa-right-from-bracket fa-fw"></i>
+          <span class="sm:inline-block hidden">logout</span>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="w-full p-4 overflow-y-auto">
+    <router-outlet></router-outlet>
+  </main>
+</section>

@@ -1,0 +1,8 @@
+<section class="md:grid-cols-2 grid gap-4 p-2">
+  <article class="p-4 text-center border rounded" *ngFor="let news of newsList">
+    <h3 class="text-dark-light text-sm font-bold">{{ news.title }}</h3>
+    <p class="text-dark-light mt-3 text-sm font-light">
+      {{ news.description }}
+    </p>
+  </article>
+</section>

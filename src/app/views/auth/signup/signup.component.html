@@ -1,0 +1,131 @@
+<section>
+  <!-- Title  -->
+  <h1
+    class="text-3xl text-center text-transparent font-bold tracking-[5px] uppercase font-rubik bg-gradient-to-r bg-clip-text from-white to-orange-700"
+  >
+    Sign In
+  </h1>
+
+  <!-- inputs  -->
+
+  <form
+    class="grid w-3/4 mx-auto mt-4"
+    [formGroup]="signUpForm"
+    (ngSubmit)="onSubmitForm(signUpForm)"
+  >
+    <div class="relative">
+      <input
+        formControlName="name"
+        #nam
+        class="form-input focus:ring-0 w-full bg-transparent border-0 border-b"
+        type="text"
+        placeholder="Name"
+      />
+
+      <div
+        *ngIf="signUpForm.get('name')?.errors && nam.value.length > 0"
+        class="top-full absolute left-0 right-0 z-50 text-red-700 bg-red-300"
+      >
+        <p
+          *ngIf="signUpForm.get('name')?.getError('required')"
+          class="capitalize"
+        >
+          name is required
+        </p>
+        <p
+          *ngIf="signUpForm.get('name')?.getError('minlength')"
+          class="capitalize"
+        >
+          name min length (3)
+        </p>
+        <p
+          *ngIf="signUpForm.get('name')?.getError('maxlength')"
+          class="capitalize"
+        >
+          name max length (20)
+        </p>
+      </div>
+    </div>
+
+    <div class="relative">
+      <input
+        #emai
+        formControlName="email"
+        class="form-input focus:ring-0 w-full bg-transparent border-0 border-b"
+        type="email"
+        placeholder="Email address"
+      />
+
+      <div
+        *ngIf="signUpForm.get('email')?.errors && emai.value.length > 0"
+        class="top-full absolute left-0 right-0 z-50 text-red-700 bg-red-300"
+      >
+        <p
+          *ngIf="signUpForm.get('email')?.getError('required')"
+          class="capitalize"
+        >
+          email is required
+        </p>
+        <p
+          *ngIf="signUpForm.get('email')?.getError('email')"
+          class="capitalize"
+        >
+          email in valid pattern
+        </p>
+      </div>
+    </div>
+
+    <div class="relative">
+      <input
+        #pass
+        formControlName="password"
+        class="form-input focus:ring-0 w-full bg-transparent border-0 border-b"
+        [type]="showPass ? 'password' : 'text'"
+        placeholder="Password"
+      />
+      <div
+        *ngIf="signUpForm.get('password')?.errors && pass.value.length > 0"
+        class="top-full absolute left-0 right-0 z-50 text-red-700 bg-red-300"
+      >
+        <p
+          *ngIf="signUpForm.get('password')?.getError('required')"
+          class="capitalize"
+        >
+          password is required
+        </p>
+        <p
+          *ngIf="signUpForm.get('password')?.getError('minlength')"
+          class="capitalize"
+        >
+          password min(3)
+        </p>
+        <p
+          *ngIf="signUpForm.get('password')?.getError('minlength')"
+          class="capitalize"
+        >
+          password max(10)
+        </p>
+      </div>
+      <span
+        class="top-1/2 right-4 text-white/50 absolute -translate-y-1/2 cursor-pointer"
+        (click)="showPass = !showPass"
+      >
+        <i *ngIf="showPass" class="fa-solid fa-eye"></i>
+        <i *ngIf="!showPass" class="fa-solid fa-eye-slash"></i>
+      </span>
+    </div>
+
+    <button [disabled]="signUpForm.invalid" class="enabled:btn mt-4">
+      Sign Up
+    </button>
+
+    <h3 class="mt-3 font-mono text-sm tracking-wide text-gray-300 capitalize">
+      i have account already
+      <span
+        class="hover:text-orange-900 text-orange-500 transition-colors cursor-pointer"
+        routerLink="/auth/login"
+        >LigIn</span
+      >
+    </h3>
+  </form>
+</section>

@@ -1,0 +1,44 @@
+<section class="flex h-screen">
+  <aside
+    class="w-[80px] transition-all duration-300 sm:w-[240px] bg-gray-200 h-full shrink-0 overflow-hidden"
+  >
+    <h1
+      class="sm:text-2xl h-14 font-rubik flex items-center pl-3 text-xs font-medium text-white uppercase bg-black"
+    >
+      admin
+    </h1>
+
+    <nav>
+      <ul class="whitespace-nowrap sm:text-start text-center">
+        <!-- <li class="link" routerLinkActive="active">
+          <i class="fas fa-home fa-fw w-10"></i>
+          <span class="sm:inline-block hidden">Dashboard</span>
+        </li> -->
+
+        <li class="link" routerLinkActive="active" routerLink="/admin/posts">
+          <i class="fa-solid fa-layer-group fa-fw w-10"></i>
+          <span class="sm:inline-block hidden">Posts</span>
+        </li>
+
+        <!-- <li class="link" routerLinkActive="active">
+          <i class="fa-solid fa-chart-pie fa-fw w-10"></i>
+          <span class="sm:inline-block hidden">Reports</span>
+        </li> -->
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="w-full overflow-auto">
+    <header class="bg-dark h-14 flex items-center justify-end pr-3">
+      <span
+        (click)="logOut()"
+        class="hover:text-orange-600 font-mono text-sm text-white transition-colors cursor-pointer"
+        >Sign Out</span
+      >
+    </header>
+
+    <section class="p-3">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</section>

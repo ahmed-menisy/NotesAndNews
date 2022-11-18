@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@menisy.com",
+      "password": "123",
+      "role": "admin"
+    },
+    { "id": 2, "email": "user@menisy.com", "password": "123", "role": "user" },
+    {
+      "id": 3,
+      "email": "user2@menisy.com",
+      "password": "123",
+      "role": "user",
+      "name": "ahmed"
+    },
+    {
+      "id": 4,
+      "email": "amelmaster100@yahoo.com",
+      "password": "123",
+      "role": "user",
+      "name": "ali"
+    }
+  ]
+}

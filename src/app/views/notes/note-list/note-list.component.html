@@ -1,0 +1,195 @@
+<section class="md:grid-cols-2 lg:grid-cols-3 grid grid-cols-1 gap-4">
+  <!-- Search  -->
+  <div
+    class="dark:border-slate-700 col-span-full flex overflow-hidden border rounded"
+  >
+    <button
+      (click)="addOrUpdateItem(undefined, true)"
+      class="shrink-0 dark:bg-dark-light hover:bg-green-900 dark:hover:bg-dark px-4 text-white transition-colors duration-300 bg-green-700"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <input
+      [(ngModel)]="trim"
+      type="text"
+      class="form-input dark:bg-dark-light dark:text-white dark:placeholder:text-white focus:ring-0 focus:border-transparent w-full h-full border-transparent"
+      placeholder="Search..."
+    />
+
+    <button
+      class="shrink-0 dark:bg-dark-light hover:bg-orange-700 dark:hover:bg-dark px-4 text-white transition-colors duration-300 bg-orange-500 pointer-events-none"
+    >
+      Search
+    </button>
+  </div>
+
+  <!-- ------------------- Notes -------------------  -->
+  <div
+    *ngFor="let note of notes | search: trim; index as i; trackBy: trackItem"
+    class="group hover:bg-orange-400 relative p-3 pb-6 overflow-hidden text-center transition-colors duration-300 border rounded"
+  >
+    <h3
+      class="group-hover:text-white relative text-sm font-bold transition-colors duration-500"
+      [title]="note.title"
+    >
+      {{
+        note.title.split(" ").length > 5
+          ? (note.title | trunc: 5) + "..."
+          : note.title
+      }}
+
+      <span
+        (click)="addOrUpdateItem(note.id, false, i)"
+        class="hover:text-green-800 -right-10 group-hover:right-4 absolute text-xl text-green-500 cursor-pointer transition-[right] duration-300"
+        ><i class="fas fa-edit"></i
+      ></span>
+    </h3>
+
+    <p
+      class="group-hover:text-white relative mt-3 text-[12px] leading-normal text-gray-700 transition-colors duration-500"
+    >
+      {{
+        note.description.split(" ").length > 20
+          ? (note.description | trunc: 20) + "..."
+          : note.description
+      }}
+    </p>
+
+    <span
+      [swal]="{
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }"
+      (confirm)="deleteItem(note.id, i)"
+      class="hover:text-red-800 -right-10 bottom-1 group-hover:right-4 absolute text-xl text-red-500 cursor-pointer transition-[right] duration-300"
+      ><i class="fas fa-trash"></i
+    ></span>
+  </div>
+</section>
+
+<!-- ------------------- Modal ------------------- -->
+<section
+  class="place-items-center bg-dark-light/10 fixed inset-0 z-50 grid h-screen overflow-y-auto"
+  *ngIf="show"
+>
+  <form
+    class="sm:w-3/4 md:w-1/2 w-full bg-white border rounded shadow-sm"
+    [formGroup]="noteForm"
+    (ngSubmit)="onSubmitForm(noteForm)"
+  >
+    <header class="flex items-center justify-between p-2 border-b">
+      <h2 class="text-2xl font-bold tracking-wide uppercase">items details</h2>
+      <span
+        (click)="close()"
+        class="text-dark-light hover:text-orange-500 p-2 text-xl transition-colors duration-300 cursor-pointer"
+        ><i class="fas fa-close"></i
+      ></span>
+    </header>
+
+    <div class="grid gap-4 px-2 py-4">
+      <div class="relative">
+        <label for="title" class="text-gray-500 capitalize">title</label>
+        <input
+          #tit
+          [ngClass]="{
+            '!border-red-700 focus:!ring-red-700 focus:!border-red-700':
+              noteForm.get('title')?.errors && tit.value.length,
+            '!border-green-700 focus:!ring-green-700 focus:!border-green-700':
+              !noteForm.get('title')?.errors && tit.value.length
+          }"
+          formControlName="title"
+          id="title"
+          type="text"
+          class="form-input focus:ring-orange-400 focus:border-orange-400 w-full border-orange-200"
+        />
+        <div
+          *ngIf="noteForm.get('title')?.errors && tit.value?.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="noteForm.get('title')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title is required
+          </p>
+          <p
+            *ngIf="noteForm.get('title')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title min length (5)
+          </p>
+          <p
+            *ngIf="noteForm.get('title')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            title max length (30)
+          </p>
+        </div>
+      </div>
+
+      <div class="relative">
+        <label for="description" class="text-gray-500 capitalize"
+          >description</label
+        >
+        <textarea
+          #desc
+          [ngClass]="{
+            '!border-red-700 focus:!ring-red-700 focus:!border-red-700':
+              noteForm.get('description')?.errors && desc.value.length,
+            '!border-green-700 focus:!ring-green-700 focus:!border-green-700':
+              !noteForm.get('description')?.errors && desc.value.length
+          }"
+          formControlName="description"
+          id="description"
+          class="form-input focus:ring-orange-400 focus:border-orange-400 block w-full h-40 border-orange-200 resize-y"
+        ></textarea>
+        <div
+          *ngIf="noteForm.get('description')?.errors && desc.value?.length"
+          class="top-full absolute left-0 right-0 z-10 p-3 bg-red-300 rounded"
+        >
+          <p
+            *ngIf="noteForm.get('description')?.getError('required')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description is required
+          </p>
+          <p
+            *ngIf="noteForm.get('description')?.getError('minlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description min length (5)
+          </p>
+          <p
+            *ngIf="noteForm.get('description')?.getError('maxlength')"
+            class="text-lg font-light text-center text-red-900 capitalize"
+          >
+            description max length (200)
+          </p>
+        </div>
+      </div>
+
+      <button
+        *ngIf="btnAddOrUpdate"
+        [disabled]="noteForm.invalid"
+        class="enabled:hover:bg-blue-900 px-4 py-2 text-white uppercase transition-colors duration-300 bg-blue-400"
+      >
+        add
+      </button>
+
+      <button
+        *ngIf="!btnAddOrUpdate"
+        [disabled]="noteForm.invalid"
+        class="enabled:hover:bg-orange-900 px-4 py-2 text-white uppercase transition-colors duration-300 bg-orange-400"
+      >
+        update
+      </button>
+    </div>
+  </form>
+</section>
